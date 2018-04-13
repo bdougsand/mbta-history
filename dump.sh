@@ -9,11 +9,13 @@ fi
 keydir=$(date --date="$date_specifier" +"%Y/%m")
 trip_start=$(date --date="$date_specifier" +"%Y-%m-%d")
 
-if [ -n "$MBTA_UPDATES_DIR" ]; then
-    updates_dir="$MBTA_UPDATES_DIR"
+if [ -n "$BASH_SOURCE" ]; then
+    default_dir="$(dirname "$BASH_SOURCE")/updates"
 else
-    updates_dir="$HOME/record/updates"
+    default_dir="$HOME/mbta-history/updates"
 fi
+
+updates_dir="${MBTA_UPDATES_DIR:-$default_dir}"
 
 cd "$updates_dir"
 cat $trip_start.csv | uniq > ${trip_start}_unique.csv
