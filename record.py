@@ -10,10 +10,14 @@ from urllib.request import urlopen
 from gtfs_realtime_pb2 import Alert, FeedMessage, VehiclePosition
 
 
-VehiclePositionsUrl = "http://developer.mbta.com/lib/GTRTFS/Alerts/VehiclePositions.pb"
-AlertsUrl = "http://developer.mbta.com/lib/GTRTFS/Alerts/Alerts.pb"
+VehiclePositionsUrl = "https://cdn.mbta.com/realtime/VehiclePositions.pb"
+AlertsUrl = "https://cdn.mbta.com/realtime/Alerts.pb"
 
-DEFAULT_BASE_DIR = os.path.join(os.path.dirname(__file__), "updates")
+try:
+    DEFAULT_BASE_DIR = os.path.join(os.path.dirname(__file__), "updates")
+except NameError as _:
+    DEFAULT_BASE_DIR = os.path.join(os.getcwd(), "updates")
+
 BASE_DIR = os.environ.get("MBTA_UPDATES_DIR", DEFAULT_BASE_DIR)
 
 
@@ -96,6 +100,8 @@ def run():
             time.sleep(15)
     except KeyboardInterrupt:
         print("Exiting")
+    except Exception as err:
+        pass
 
 
 if __name__ == "__main__":

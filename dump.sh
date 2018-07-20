@@ -18,7 +18,7 @@ fi
 updates_dir="${MBTA_UPDATES_DIR:-$default_dir}"
 
 cd "$updates_dir"
-cat $trip_start.csv | uniq > ${trip_start}_unique.csv
+uniq < $trip_start.csv > ${trip_start}_unique.csv
 gzip ${trip_start}_unique.csv
 export AWS_PROFILE=db_dump
 aws s3 cp ${trip_start}_unique.csv.gz \
