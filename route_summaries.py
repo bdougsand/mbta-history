@@ -28,10 +28,6 @@ def summarize_route(route_df):
     })
 
 
-def preprocess_route():
-    pass
-
-
 def date_parser(dts):
     return pd.to_datetime(dts.rpartition("-")[0])
 
@@ -39,11 +35,15 @@ def date_parser(dts):
 def read_summary(filepath):
     df = pd.read_csv(filepath,
                      dtype="unicode",
+                     usecols=["trip_id", "route_id",
+                              "recorded_stops", "first_delay", "last_delay",
+                              "delay_50", "scheduled_start", "scheduled_end"],
                      parse_dates=["scheduled_start", "scheduled_end"],
                      date_parser=date_parser)\
            .dropna(subset=["first_delay"])
     return df.assign(first_delay=pd.to_numeric(df.first_delay),
                      last_delay=pd.to_numeric(df.last_delay),
+                     recorded_stops=pd.to_numeric(df.recorded_stops),
                      delay_50=pd.to_numeric(df.delay_50))
 
 
