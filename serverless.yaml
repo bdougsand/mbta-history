@@ -1,0 +1,46 @@
+service: mbta-history
+
+provider:
+  name: aws
+  region: us-east-2
+  runtime: python3.6
+  memorySize: 2560
+  timeout: 300
+  profile: mbta-history
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket"
+        - "s3:PutBucket"
+      Resource:
+        - "arn:aws:s3:::mbta-history.apptic.xyz"
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+        - "s3:PutObjectAcl"
+      Resource:
+        - "arn:aws:s3:::mbta-history.apptic.xyz/*"
+
+package:
+  exclude:
+    - "*"
+    - "!summarize.py"
+    - "!aws.py"
+
+functions:
+  summarize:
+    handler: aws.summarize
+    # events:
+    #   - eixstingS3:
+    #       bucket: mbta-history.apptic.xyz
+    #       event: s3:ObjectCreated:*
+    #       rules:
+    #         - suffix: ".csv.gz"
+
+plugins:
+  - serverless-python-requirements
+  # - serverless-plugin-existing-s3
+custom:
+  pythonRequirements:
+    dockerizePip: true
