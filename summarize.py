@@ -8,7 +8,6 @@
 # downloaded at a time. This comes at the cost of some parallelism, but not
 # enough to matter much.
 
-from collections import defaultdict
 import csv
 from datetime import datetime, timedelta
 from io import BytesIO, TextIOWrapper
@@ -17,7 +16,6 @@ from multiprocessing import Lock
 import multiprocessing.pool as mp
 import os
 import re
-import tarfile
 from urllib.error import HTTPError
 from urllib.request import urlopen, urlretrieve
 
