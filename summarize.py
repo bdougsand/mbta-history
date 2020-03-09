@@ -16,6 +16,7 @@ from multiprocessing import Lock
 import multiprocessing.pool as mp
 import os
 import re
+import tempfile
 from urllib.error import HTTPError
 from urllib.request import urlopen, urlretrieve
 
@@ -27,7 +28,7 @@ import zipfile
 
 CURRENT_FEED_URL = "http://www.mbta.com/uploadedfiles/MBTA_GTFS.zip"
 FEED_URLS = "https://www.mbta.com/gtfs_archive/archived_feeds.txt"
-FEED_DIR = os.path.join(os.getcwd(), "feeds")
+FEED_DIR = tempfile.mkdtemp(prefix="feeds")
 TZ = pytz.timezone("US/Eastern")
 _feed_urls = None
 
